@@ -30,6 +30,29 @@ const cartReducer = (state, action) => {
     }
 
     return { items: updatedItems, totalAmount: updatedTotalAmount };
+  } else if (action.type === "REMOVE") {
+    //const existingCartItem = state.items[action.id]; why is this not working
+    const existingCartItemIndex = state.items.findIndex((item) => {
+      return action.id === item.id;
+    });
+    const existingCartItem = state.items[existingCartItemIndex];
+    const updatedTotalAmount = state.totalAmount - existingCartItem.price;
+
+    let updatedItems;
+    if (existingCartItem.amount === 1) {
+      updatedItems = state.items.filter((item) => {
+        return item.id !== action.id;
+      });
+    } else {
+      const updatedItem = {
+        ...existingCartItem,
+        amount: existingCartItem.amount - 1,
+      };
+      updatedItems = [...state.items];
+      updatedItems[existingCartItemIndex] = updatedItem;
+    }
+
+    return { items: updatedItems, totalAmount: updatedTotalAmount };
   }
   return defaultCartState;
 };
