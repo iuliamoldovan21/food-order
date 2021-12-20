@@ -28,8 +28,8 @@ const cartReducer = (state, action) => {
     } else {
       updatedItems = state.items.concat(action.item);
     }
-
     return { items: updatedItems, totalAmount: updatedTotalAmount };
+  
   } else if (action.type === "REMOVE") {
     //const existingCartItem = state.items[action.id]; why is this not working
     const existingCartItemIndex = state.items.findIndex((item) => {
