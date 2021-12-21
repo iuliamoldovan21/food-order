@@ -14,9 +14,7 @@ const AvailableMeals = () => {
       "https://food-order-be-default-rtdb.firebaseio.com/meals.json"
     );
     if (!response.ok) throw new Error("Something went wrong!");
-    console.log(response);
     const mealsObj = await response.json();
-    console.log(mealsObj);
 
     let loadedMeals = [];
     for (const key in mealsObj) {

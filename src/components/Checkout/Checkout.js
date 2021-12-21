@@ -25,26 +25,37 @@ const Checkout = (props) => {
     inputBlurHandler: postalBlurHandler,
     reset: resetPostal,
   } = useInput((value) => {
-    let regex = /^[A-Z0-9]{1,10}$/;
+    const regex = /^[A-Z0-9]{1,10}$/;
     return regex.test(value);
   });
 
   const confirmHandler = (event) => {
     event.preventDefault();
 
-    console.log("Checkout confirmed!");
-    console.log(nameValue);
-    console.log(addressValue);
-    console.log(postalValue);
+    const formIsValid = !nameHasError && !addressHasError && !postalHasError;
+    if (!formIsValid) return;
+
+    const checkoutData = {
+      name: nameValue,
+      address: addressValue,
+      postalCode: postalValue,
+    };
+    props.onConfirm(checkoutData);
 
     resetName();
     resetAddress();
     resetPostal();
   };
 
-  const nameClasses = nameHasError ? classes.invalid : classes.control;
-  const addressClasses = addressHasError ? classes.invalid : classes.control;
-  const postalClasses = postalHasError ? classes.invalid : classes.control;
+  const nameClasses = `${classes.control} ${
+    nameHasError ? classes.invalid : ""
+  }`;
+  const addressClasses = `${classes.control} ${
+    addressHasError ? classes.invalid : ""
+  }`;
+  const postalClasses = `${classes.control} ${
+    postalHasError ? classes.invalid : ""
+  }`;
 
   return (
     <form className={classes.form} onSubmit={confirmHandler}>

@@ -29,7 +29,6 @@ const cartReducer = (state, action) => {
       updatedItems = state.items.concat(action.item);
     }
     return { items: updatedItems, totalAmount: updatedTotalAmount };
-  
   } else if (action.type === "REMOVE") {
     //const existingCartItem = state.items[action.id]; why is this not working
     const existingCartItemIndex = state.items.findIndex((item) => {
@@ -54,6 +53,9 @@ const cartReducer = (state, action) => {
 
     return { items: updatedItems, totalAmount: updatedTotalAmount };
   }
+
+  if (action.type === "CLEAR") return defaultCartState;
+
   return defaultCartState;
 };
 
@@ -71,11 +73,16 @@ const CartProvider = (props) => {
     dispatchCartAction({ type: "REMOVE", id: id });
   };
 
+  const clearCartHandler = () => {
+    dispatchCartAction({ type: "CLEAR" });
+  };
+
   const cartContext = {
     items: cartState.items,
     totalAmount: cartState.totalAmount,
     addItem: addItemToCartHandler,
     removeItem: removeItemFromCartHandler,
+    clearCart: clearCartHandler,
   };
   return (
     <CartContext.Provider value={cartContext}>
