@@ -1,5 +1,4 @@
 import useInput from "../../hooks/use-input";
-import Modal from "../UI/Modal";
 import classes from "./Checkout.module.css";
 
 const Checkout = (props) => {
@@ -43,54 +42,56 @@ const Checkout = (props) => {
     resetPostal();
   };
 
+  const nameClasses = nameHasError ? classes.invalid : classes.control;
+  const addressClasses = addressHasError ? classes.invalid : classes.control;
+  const postalClasses = postalHasError ? classes.invalid : classes.control;
+
   return (
-    <Modal>
-      <form className={classes.form} onSubmit={confirmHandler}>
-        <div className={classes.control}>
-          <label htmlFor="name">Your Name</label>
-          <input
-            type="text"
-            id="name"
-            onChange={nameChangeHandler}
-            onBlur={nameBlurHandler}
-            value={nameValue}
-          ></input>
-          {nameHasError && <p>Please enter a name.</p>}
-        </div>
-        <div className={classes.control}>
-          <label htmlFor="address">Your Full Address</label>
-          <input
-            type="text"
-            id="address"
-            onChange={addressChangeHandler}
-            onBlur={addressBlurHandler}
-            value={addressValue}
-          ></input>
-          {addressHasError && <p>Please enter a address.</p>}
-        </div>
-        <div className={classes.control}>
-          <label htmlFor="postal">Postal Code</label>
-          <input
-            type="text"
-            id="postal"
-            onChange={postalChangeHandler}
-            onBlur={postalBlurHandler}
-            value={postalValue}
-          ></input>
-          {postalHasError && (
-            <p>
-              Please enter a valid postal code (capital letters and/or digits).
-            </p>
-          )}
-        </div>
-        <div className={classes.actions}>
-          <button type="button" onClick={props.onClose}>
-            Cancel
-          </button>
-          <button type="submit">Confirm</button>
-        </div>
-      </form>
-    </Modal>
+    <form className={classes.form} onSubmit={confirmHandler}>
+      <div className={nameClasses}>
+        <label htmlFor="name">Your Name</label>
+        <input
+          type="text"
+          id="name"
+          onChange={nameChangeHandler}
+          onBlur={nameBlurHandler}
+          value={nameValue}
+        ></input>
+        {nameHasError && <p>Please enter a name.</p>}
+      </div>
+      <div className={addressClasses}>
+        <label htmlFor="address">Your Full Address</label>
+        <input
+          type="text"
+          id="address"
+          onChange={addressChangeHandler}
+          onBlur={addressBlurHandler}
+          value={addressValue}
+        ></input>
+        {addressHasError && <p>Please enter a address.</p>}
+      </div>
+      <div className={postalClasses}>
+        <label htmlFor="postal">Postal Code</label>
+        <input
+          type="text"
+          id="postal"
+          onChange={postalChangeHandler}
+          onBlur={postalBlurHandler}
+          value={postalValue}
+        ></input>
+        {postalHasError && (
+          <p>
+            Please enter a valid postal code (capital letters and/or digits).
+          </p>
+        )}
+      </div>
+      <div className={classes.actions}>
+        <button type="button" onClick={props.onCancel}>
+          Cancel
+        </button>
+        <button type="submit">Confirm</button>
+      </div>
+    </form>
   );
 };
 
